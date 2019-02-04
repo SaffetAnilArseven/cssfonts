@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="tr" data-ng-app="myapp" data-ng-controller="myctrl">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>CSS Fonts</title>
+</head>
+
+<body>
+    <a>Font Name:</a> <input type="text" data-ng-model="family">
+    <br>
+    <br><i>İtalic:</i> <input type="button" class="italic" onclick="italic();" value="İtalic"> <input class="i-normal" type="button" onclick="normal();" value="Normal">
+    <br>
+    <br><b>Bold:</b> <input type="text" class="weight" data-ng-model="weight" placeholder="normal"> 
+    <br>
+    <br><a>Local1:</a> <input type="text" data-ng-model="local1">
+    <br>
+    <br><a>Local2:</a> <input type="text" data-ng-model="local2">
+    <br>
+    <br><a>URL:</a> <input type="text" data-ng-model="url">
+    <br>
+    <br><a>Format:</a> <input type="text" data-ng-model="format" placeholder="woff2">
+    <br>
+    <br><a>Unicode Range:</a> <input type="text" data-ng-model="unicode">
+    <br>
+    <br><a>CSS:</a> <input type="button" class="copy" value="CSS Copy" data-clipboard-action="copy" data-clipboard-target=".css"> <br> <br>
+    <div class="css">
+        <div>@font-face {</div>
+        <div>font-family: {{family}}</div>
+        <div id="style">font-style: normal;</div>
+        <div>font-weight: {{weight}};</div>
+        <div>src: local('{{local1}}'), local('{{local2}}'), url(<a href="{{url}}" target=_blank>{{url}}</a>), format('{{format}}');</div>
+        <div>unicode-range: {{unicode}};</div>
+        <div>}</div>
+    </div>
+    <script async type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/angular@1.2/angular.min.js"></script>
+    <script type="text/javascript">
+        function italic() {
+                document.getElementById("style").innerHTML = "font-style: italic;";
+        }
+        function normal() {
+                document.getElementById("style").innerHTML = "font-style: normal;";
+        }
+        var clipboard = new ClipboardJS(".copy", {
+            target: function() {
+                return document.querySelector(".css");
+            }
+        });
+        clipboard.on('success', function(e) {
+            console.log(e);
+            e.clearSelection();
+        });
+        clipboard.on('error', function(e) {
+            console.log(e);
+            alert("Windows: ctrl+c Mac: command+c Linux: ctl+d");
+        });
+        var app = angular.module('myapp', []);
+app.controller('myctrl', function($scope) {
+    $scope.weight = "normal";
+    $scope.format = "woff2";
+});
+    </script>
+    <style type="text/css">
+        @import url('https://cdn.jsdelivr.net/npm/normalize.css@v/normalize.css');
+        body {
+            color: #000000;
+            font-family: sans-serif;
+            font-style: normal;
+            font-weight: normal;
+        }
+		.i-normal{
+			font-weight: bold;
+		}        	
+        .css {
+            color: #000000;
+            font-family: sans-serif;
+            font-style: normal;
+            font-weight: bold;
+        }
+        
+        .italic {
+            font-style: italic;
+            font-family: sans-serif;
+            font-weight: normal;
+        }
+        
+        .weight {
+            font-weight: bold;
+            font-family: sans-serif;
+            font-style: normal;
+        }
+     
+        
+        .copy {
+            color: #000000;
+            font-family: sans-serif;
+            font-style: normal;
+            font-weight: normal;
+        }
+    </style>
+</body>
+
+</html>
